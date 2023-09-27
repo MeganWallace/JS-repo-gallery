@@ -1,13 +1,31 @@
 // ~~~~~~~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~~~~~~~~
-// targets div with class = overview
+// target div with class .overview
 const overview = document.querySelector(".overview");
-// specifies GitHub user
+// specify GitHub user
 const username = "MeganWallace";
 
-// =============== Function to get user information ===============
-const getUser = async function(){
+// =============== Function to get user data ===============
+const getUser = async function () {
   const response = await fetch(`https://api.github.com/users/${username}`);
   const data = await response.json();
-  console.log(data);
+  // console.log(data);
+  displayUser(data); //calls displayUser function passing JSON data as argument
 }
+getUser();
 
+// =============== Function to display user data ===============
+const displayUser = function (data) { //accepts JSON data
+  const userInfoDiv = document.createElement("div"); //create a new div
+  userInfoDiv.classList.add("user-info"); //assign new div a class of .user-info
+  userInfoDiv.innerHTML = //add content to .user-info div...you're pulling properties from the data argument, so data. is needed 
+    `<figure>
+      <img alt="user avatar" src=${data.avatar_url}>
+    </figure>
+    <div>
+      <p><strong>Name:</strong> ${data.name}</p>
+      <p><strong>Bio:</strong> ${data.bio}</p>
+      <p><strong>Location:</strong> ${data.location}</p>
+      <p><strong>Number of public repos:</strong> ${data.public_repos}</p>
+    </div>`;
+  overview.append(userInfoDiv); //adds the userInfoDiv to the overview div
+}

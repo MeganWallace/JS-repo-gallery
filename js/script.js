@@ -3,18 +3,20 @@
 const overview = document.querySelector(".overview");
 // specify GitHub user
 const username = "MeganWallace";
+// target unordered list with class .repo-list
+const repoList = document.querySelector(".repo-list");
 
 // =============== Function to get user data ===============
 const getUser = async function () {
   const response = await fetch(`https://api.github.com/users/${username}`);
   const data = await response.json();
   // console.log(data);
-  displayUser(data); //calls displayUser function passing JSON data as argument
+  displayUserInfo(data); //calls displayUserInfo function, passing JSON data as argument
 }
 getUser();
 
 // =============== Function to display user data ===============
-const displayUser = function (data) { //accepts JSON data
+const displayUserInfo = function (data) { //accepts JSON data
   const userInfoDiv = document.createElement("div"); //create a new div
   userInfoDiv.classList.add("user-info"); //assign new div a class of .user-info
   userInfoDiv.innerHTML = //add content to .user-info div...you're pulling properties from the data argument, so data. is needed 
@@ -27,5 +29,5 @@ const displayUser = function (data) { //accepts JSON data
       <p><strong>Location:</strong> ${data.location}</p>
       <p><strong>Number of public repos:</strong> ${data.public_repos}</p>
     </div>`;
-  overview.append(userInfoDiv); //adds the userInfoDiv to the overview div
-}
+    overview.append(userInfoDiv); //adds the userInfoDiv to the overview div
+  }

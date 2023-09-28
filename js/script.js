@@ -30,7 +30,7 @@ const displayUserInfo = function (data) { //accepts JSON data (array of user dat
       <p><strong>Number of public repos:</strong> ${data.public_repos}</p>
     </div>`;
     overview.append(userInfoDiv); //adds the userInfoDiv to the overview div
-    getRepos(); //call getRepos function (this is here because we want it to execute after the user info is displayed)
+    getRepos(); //call getRepos function (this is here because we want it to trigger after the user info is displayed)
 };
 
 // =============== Function to get public repos ===============

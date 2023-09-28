@@ -12,7 +12,7 @@ const getUser = async function () {
   const data = await response.json();
   // console.log(data);
   displayUserInfo(data); //calls displayUserInfo function, passing JSON data as argument
-}
+};
 getUser();
 
 // =============== Function to display user data ===============
@@ -30,4 +30,12 @@ const displayUserInfo = function (data) { //accepts JSON data
       <p><strong>Number of public repos:</strong> ${data.public_repos}</p>
     </div>`;
     overview.append(userInfoDiv); //adds the userInfoDiv to the overview div
-  }
+};
+
+// =============== Function to get repos ===============
+const getRepos = async function(){
+  const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`); //get repos: sort by most recently updated, show up to 100 per page
+  const repoData = await repoRes.json();
+  console.log(repoData);
+};
+// getRepos();

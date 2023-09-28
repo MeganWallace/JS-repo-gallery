@@ -8,17 +8,17 @@ const repoList = document.querySelector(".repo-list");
 
 // =============== Function to get user data ===============
 const getUser = async function () {
-  const response = await fetch(`https://api.github.com/users/${username}`);
-  const data = await response.json();
-  // console.log(data);
+  const response = await fetch(`https://api.github.com/users/${username}`); //get user data
+  const data = await response.json(); //parse and hold JSON data (array of user data)
+  // console.log(data); //***PLACEHOLDER*** log out JSON data (array of user data)
   displayUserInfo(data); //calls displayUserInfo function, passing JSON data as argument
 };
 getUser();
 
 // =============== Function to display user data ===============
-const displayUserInfo = function (data) { //accepts JSON data
+const displayUserInfo = function (data) { //accepts JSON data (array of user data)
   const userInfoDiv = document.createElement("div"); //create a new div
-  userInfoDiv.classList.add("user-info"); //assign new div a class of .user-info
+  userInfoDiv.classList.add("user-info"); //assign "user-info" class to new div
   userInfoDiv.innerHTML = //add content to .user-info div...you're pulling properties from the data argument, so data. is needed 
     `<figure>
       <img alt="user avatar" src=${data.avatar_url}>
@@ -32,10 +32,22 @@ const displayUserInfo = function (data) { //accepts JSON data
     overview.append(userInfoDiv); //adds the userInfoDiv to the overview div
 };
 
-// =============== Function to get repos ===============
+// =============== Function to get public repos ===============
 const getRepos = async function(){
   const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`); //get repos: sort by most recently updated, show up to 100 per page
-  const repoData = await repoRes.json();
-  console.log(repoData);
+  const repoData = await repoRes.json(); //parse and hold JSON data (array of public repos)
+  console.log(repoData); //***PLACEHOLDER*** log out JSON data (array of public repos)
 };
 // getRepos();
+
+// =============== Function to display public repo information ===============
+const displayRepos = function(repos){ //accepts JSON data (array of public repos)
+  repoList.innerHTML = ""; //empty repo list contents
+  for (const repo of repos){ //loop through each repo
+    const repoName = repo.name //variable for repo name
+    let li = document.createElement("li"); //create list item for each repo
+    li.classList.add("repos"); //assign "repos" class to list item
+    li.innerHTML =`<h3>${repoName}</h3>`; //add content to list item
+    repoList.append(li); //add list item to repo list
+  }
+};

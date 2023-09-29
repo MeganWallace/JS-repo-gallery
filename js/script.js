@@ -55,3 +55,19 @@ const displayRepos = function(repos){ //accepts JSON data (array of public repos
     repoList.append(repoItem); //add list item to repo list
   }
 };
+
+// =============== Click event for repo list ===============
+repoList.addEventListener("click", function(e){
+  if(e.target.matches("h3")){ //if target (element clicked) matches the repo name (h3 element)...
+    const repoName = e.target.innerText; //set repoName to innerText of target
+    // console.log(repoName); //***PLACEHOLDER*** log out repoName
+    getRepoInfo(repoName);
+  }
+});
+
+// =============== Function to get specific repo data ===============
+const getRepoInfo = async function (repoName){ //finds info for repo with repoName
+  const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`); //get info for repo with repoName
+  const repoInfo = await fetchInfo.json(); //parse and hold JSON data (array of repo info)
+  console.log(repoInfo); //***PLACEHOLDER*** log out JSON data (array of repo info)
+};

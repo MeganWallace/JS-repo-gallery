@@ -33,12 +33,12 @@ const displayUserInfo = function (data) { //accepts JSON data (array of user dat
       <p><strong>Location:</strong> ${data.location}</p>
       <p><strong>Number of public repos:</strong> ${data.public_repos}</p>
     </div>`;
-    overview.append(userInfoDiv); //adds the userInfoDiv to the overview div
-    getRepos(); //call getRepos function (this is here because we want it to trigger after the user info is displayed)
+  overview.append(userInfoDiv); //adds the userInfoDiv to the overview div
+  getRepos(); //call getRepos function (this is here because we want it to trigger after the user info is displayed)
 };
 
 // =============== Function to get public repos ===============
-const getRepos = async function(){
+const getRepos = async function () {
   const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`); //get repos: sort by most recently updated, show up to 100 per page
   const repoData = await repoRes.json(); //parse and hold JSON data (array of public repos)
   // console.log(repoData); //***PLACEHOLDER*** log out JSON data (array of public repos)
@@ -46,19 +46,19 @@ const getRepos = async function(){
 };
 
 // =============== Function to display public repo information ===============
-const displayRepos = function(repos){ //accepts JSON data (array of public repos)
+const displayRepos = function (repos) { //accepts JSON data (array of public repos)
   repoList.innerHTML = ""; //empty repo list contents
-  for (const repo of repos){ //loop through each repo
+  for (const repo of repos) { //loop through each repo
     const repoItem = document.createElement("li"); //create list item for each repo
     repoItem.classList.add("repos"); //assign "repos" class to list item
-    repoItem.innerHTML =`<h3>${repo.name}</h3>`; //add repo name to list item
+    repoItem.innerHTML = `<h3>${repo.name}</h3>`; //add repo name to list item
     repoList.append(repoItem); //add list item to repo list
   }
 };
 
 // =============== Click event for repo list ===============
-repoList.addEventListener("click", function(e){
-  if(e.target.matches("h3")){ //if target (element clicked) matches the repo name (h3 element)...
+repoList.addEventListener("click", function (e) {
+  if (e.target.matches("h3")) { //if target (element clicked) matches the repo name (h3 element)...
     const repoName = e.target.innerText; //set repoName to innerText of target
     // console.log(repoName); //***PLACEHOLDER*** log out repoName
     getRepoInfo(repoName);
@@ -66,8 +66,18 @@ repoList.addEventListener("click", function(e){
 });
 
 // =============== Function to get specific repo data ===============
-const getRepoInfo = async function (repoName){ //finds info for repo with repoName
+const getRepoInfo = async function (repoName) { //finds info for repo with repoName
   const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`); //get info for repo with repoName
   const repoInfo = await fetchInfo.json(); //parse and hold JSON data (array of repo info)
-  console.log(repoInfo); //***PLACEHOLDER*** log out JSON data (array of repo info)
+  // console.log(repoInfo); //***PLACEHOLDER*** log out JSON data (array of repo info)
+
+  const fetchLanguages = await fetch(repoInfo.languages_url); //get languages_url property from repoInfo
+  const languageData = await fetchLanguages.json(); //parse and hold languages_url data
+  // console.log(languageData); //***PLACEHOLDER*** log out languages
+
+  const languages = []; //create empty array to hold language names
+  for (const language in languageData) { //loop through language_url array to get individual language names
+    languages.push(language); //add language names to empty array
+  }
+  // console.log(languages); //***PLACEHOLDER*** log out language array
 };

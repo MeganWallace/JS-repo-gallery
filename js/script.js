@@ -5,6 +5,10 @@ const overview = document.querySelector(".overview");
 const username = "MeganWallace";
 // target unordered list with class .repo-list
 const repoList = document.querySelector(".repo-list");
+// target section with class .repos
+const repoSection = document.querySelector(".repos");
+// target section with class .repo-data
+const repoDataSection = document.querySelector(".repo-data")
 
 // =============== Function to get user data ===============
 const getUser = async function () {
@@ -45,10 +49,9 @@ const getRepos = async function(){
 const displayRepos = function(repos){ //accepts JSON data (array of public repos)
   repoList.innerHTML = ""; //empty repo list contents
   for (const repo of repos){ //loop through each repo
-    const repoName = repo.name //variable for repo name
-    let li = document.createElement("li"); //create list item for each repo
-    li.classList.add("repos"); //assign "repos" class to list item
-    li.innerHTML =`<h3>${repoName}</h3>`; //add content to list item
-    repoList.append(li); //add list item to repo list
+    const repoItem = document.createElement("li"); //create list item for each repo
+    repoItem.classList.add("repos"); //assign "repos" class to list item
+    repoItem.innerHTML =`<h3>${repo.name}</h3>`; //add repo name to list item
+    repoList.append(repoItem); //add list item to repo list
   }
 };

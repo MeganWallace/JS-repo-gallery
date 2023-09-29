@@ -61,7 +61,7 @@ repoList.addEventListener("click", function (e) {
   if (e.target.matches("h3")) { //if target (element clicked) matches the repo name (h3 element)...
     const repoName = e.target.innerText; //set repoName to innerText of target
     // console.log(repoName); //***PLACEHOLDER*** log out repoName
-    getRepoInfo(repoName);
+    getRepoInfo(repoName); // calls getRepoInfo function (which triggers displayRepoInfo function)
   }
 });
 
@@ -69,7 +69,7 @@ repoList.addEventListener("click", function (e) {
 const getRepoInfo = async function (repoName) { //finds info for repo with repoName
   const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`); //get info for repo with repoName
   const repoInfo = await fetchInfo.json(); //parse and hold JSON data (array of repo info)
-  // console.log(repoInfo); //***PLACEHOLDER*** log out JSON data (array of repo info)
+  // console.log(repoInfo); //log out JSON data (array of repo info) - use to find repo property names
 
   const fetchLanguages = await fetch(repoInfo.languages_url); //get languages_url property from repoInfo
   const languageData = await fetchLanguages.json(); //parse and hold languages_url data
@@ -80,4 +80,22 @@ const getRepoInfo = async function (repoName) { //finds info for repo with repoN
     languages.push(language); //add language names to empty array
   }
   // console.log(languages); //***PLACEHOLDER*** log out language array
+
+  displayRepoInfo(repoInfo, languages); //calls displayRepoInfo function, passing arguments of repoInfo and languages
+};
+
+// =============== Function to display specific repo data ===============
+const displayRepoInfo = function (repoInfo, languages) {
+  repoDataSection.innerHTML = ""; //empty section with class of .repo-data
+  repoDataSection.classList.remove("hide"); //display section with class of .repo-data
+  repoSection.classList.add("hide"); //hide section with class of .repos (location of repo list)
+
+  const repoDiv = document.createElement("div") //add new div to section with class of .repo-data
+  repoDiv.innerHTML = //set content of new div
+    `<h3>Name: ${repoInfo.name}</h3>
+      <p>Description: ${repoInfo.description}</p>
+      <p>Default Branch: ${repoInfo.default_branch}</p>
+      <p>Languages: ${languages}</p>
+      <a class="visit" href = ${repoInfo.html_url} target = "_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`
+  repoDataSection.append(repoDiv); //add new div to section with class of .repo-data
 };

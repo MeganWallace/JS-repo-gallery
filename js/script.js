@@ -52,10 +52,11 @@ const getRepos = async function () {
 // =============== Function to display public repo information ===============
 const displayRepos = function (repos) { //accepts JSON data (array of public repos)
   repoList.innerHTML = ""; //empty repo list contents
+  filterInput.classList.remove("hide"); //display search input box
 
   for (const repo of repos) { //loop through each repo
     const repoItem = document.createElement("li"); //create list item for each repo
-    repoItem.classList.add("repos"); //assign "repos" class to list item
+    repoItem.classList.add("repo"); //assign "repo" class to list item
     repoItem.innerHTML = `<h3>${repo.name}</h3>`; //add repo name to list item
     repoList.append(repoItem); //add list item to repo list
   }
@@ -107,8 +108,27 @@ const displayRepoInfo = function (repoInfo, languages) {
 };
 
 // =============== Click event for Back to Repo Gallery Button ===============
-viewReposButton.addEventListener("click", function(){
+viewReposButton.addEventListener("click", function () {
   repoSection.classList.remove("hide"); //display section with class of .repos
   repoDataSection.classList.add("hide"); //hide section with class of .repo-data
   viewReposButton.classList.add("hide");//hide back to gallery button
+});
+
+// =============== Input event for search box ===============
+filterInput.addEventListener("input", function (e) {
+  searchText = e.target.value; //collect the search text...use value to collect actual text input
+  // ...(innerText will return a true/false based on presence of an input)
+  // console.log(searchText); //***PLACEHOLDER*** log out search text
+  const repos = document.querySelectorAll(".repo"); //selects all elements with class or .repo...
+  // ..."repos" can be used as a variable because it was never previously declared (it was only an argument placeholder in displayRepos function)
+  const searchLower = searchText.toLowerCase(); //convert search text to lower case
+
+  for (const repo of repos) { //loop through items in repos array
+    const repoLower = repo.innerText.toLowerCase(); //convert repo name (innerText) to lower case
+    if (repoLower.includes(searchLower)) { //if repo name contains search text...
+      repo.classList.remove("hide"); //display repo item
+    } else { //otherwise...
+      repo.classList.add("hide"); //hide repo item
+    }
+  }
 });

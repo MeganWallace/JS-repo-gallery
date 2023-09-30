@@ -8,7 +8,11 @@ const repoList = document.querySelector(".repo-list");
 // target section with class .repos
 const repoSection = document.querySelector(".repos");
 // target section with class .repo-data
-const repoDataSection = document.querySelector(".repo-data")
+const repoDataSection = document.querySelector(".repo-data");
+// target back to repo gallery button
+const viewReposButton = document.querySelector(".view-repos");
+// target search box input
+const filterInput = document.querySelector(".filter-repos");
 
 // =============== Function to get user data ===============
 const getUser = async function () {

@@ -52,6 +52,7 @@ const getRepos = async function () {
 // =============== Function to display public repo information ===============
 const displayRepos = function (repos) { //accepts JSON data (array of public repos)
   repoList.innerHTML = ""; //empty repo list contents
+
   for (const repo of repos) { //loop through each repo
     const repoItem = document.createElement("li"); //create list item for each repo
     repoItem.classList.add("repos"); //assign "repos" class to list item
@@ -92,6 +93,7 @@ const getRepoInfo = async function (repoName) { //finds info for repo with repoN
 const displayRepoInfo = function (repoInfo, languages) {
   repoDataSection.innerHTML = ""; //empty section with class of .repo-data
   repoDataSection.classList.remove("hide"); //display section with class of .repo-data
+  viewReposButton.classList.remove("hide"); //display "back to repo gallery" button
   repoSection.classList.add("hide"); //hide section with class of .repos (location of repo list)
 
   const repoDiv = document.createElement("div") //add new div to section with class of .repo-data
@@ -103,3 +105,10 @@ const displayRepoInfo = function (repoInfo, languages) {
       <a class="visit" href = ${repoInfo.html_url} target = "_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`
   repoDataSection.append(repoDiv); //add new div to section with class of .repo-data
 };
+
+// =============== Click event for Back to Repo Gallery Button ===============
+viewReposButton.addEventListener("click", function(){
+  repoSection.classList.remove("hide"); //display section with class of .repos
+  repoDataSection.classList.add("hide"); //hide section with class of .repo-data
+  viewReposButton.classList.add("hide");//hide back to gallery button
+});

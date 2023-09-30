@@ -18,7 +18,6 @@ const filterInput = document.querySelector(".filter-repos");
 const getUser = async function () {
   const response = await fetch(`https://api.github.com/users/${username}`); //get user data
   const data = await response.json(); //parse and hold JSON data (array of user data)
-  // console.log(data); //***PLACEHOLDER*** log out JSON data (array of user data)
   displayUserInfo(data); //calls displayUserInfo function, passing JSON data as argument
 };
 getUser();
@@ -45,7 +44,6 @@ const displayUserInfo = function (data) { //accepts JSON data (array of user dat
 const getRepos = async function () {
   const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`); //get repos: sort by most recently updated, show up to 100 per page
   const repoData = await repoRes.json(); //parse and hold JSON data (array of public repos)
-  // console.log(repoData); //***PLACEHOLDER*** log out JSON data (array of public repos)
   displayRepos(repoData); //calls displayRepo function, passing JSON data as argument
 };
 
@@ -60,13 +58,13 @@ const displayRepos = function (repos) { //accepts JSON data (array of public rep
     repoItem.innerHTML = `<h3>${repo.name}</h3>`; //add repo name to list item
     repoList.append(repoItem); //add list item to repo list
   }
+  
 };
 
 // =============== Click event for repo list ===============
 repoList.addEventListener("click", function (e) {
   if (e.target.matches("h3")) { //if target (element clicked) matches the repo name (h3 element)...
     const repoName = e.target.innerText; //set repoName to innerText of target
-    // console.log(repoName); //***PLACEHOLDER*** log out repoName
     getRepoInfo(repoName); // calls getRepoInfo function (which triggers displayRepoInfo function)
   }
 });
@@ -77,15 +75,15 @@ const getRepoInfo = async function (repoName) { //finds info for repo with repoN
   const repoInfo = await fetchInfo.json(); //parse and hold JSON data (array of repo info)
   // console.log(repoInfo); //log out JSON data (array of repo info) - use to find repo property names
 
+  //grab languages
   const fetchLanguages = await fetch(repoInfo.languages_url); //get languages_url property from repoInfo
   const languageData = await fetchLanguages.json(); //parse and hold languages_url data
-  // console.log(languageData); //***PLACEHOLDER*** log out languages
 
+  //make list of languages
   const languages = []; //create empty array to hold language names
   for (const language in languageData) { //loop through language_url array to get individual language names
     languages.push(language); //add language names to empty array
   }
-  // console.log(languages); //***PLACEHOLDER*** log out language array
 
   displayRepoInfo(repoInfo, languages); //calls displayRepoInfo function, passing arguments of repoInfo and languages
 };
@@ -114,13 +112,10 @@ viewReposButton.addEventListener("click", function () {
   viewReposButton.classList.add("hide");//hide back to gallery button
 });
 
-// =============== Input event for search box ===============
+// =============== Input event for search box (create dynamic search) ===============
 filterInput.addEventListener("input", function (e) {
-  searchText = e.target.value; //collect the search text...use value to collect actual text input
-  // ...(innerText will return a true/false based on presence of an input)
-  // console.log(searchText); //***PLACEHOLDER*** log out search text
-  const repos = document.querySelectorAll(".repo"); //selects all elements with class or .repo...
-  // ..."repos" can be used as a variable because it was never previously declared (it was only an argument placeholder in displayRepos function)
+  searchText = e.target.value; //collect the search text...use value to collect actual text input...(innerText will return a true/false based on presence of an input)
+  const repos = document.querySelectorAll(".repo"); //selects all elements with class or .repo..."repos" can be used as a variable because it was never previously declared (it was only an argument placeholder in displayRepos function)
   const searchLower = searchText.toLowerCase(); //convert search text to lower case
 
   for (const repo of repos) { //loop through items in repos array
@@ -131,4 +126,5 @@ filterInput.addEventListener("input", function (e) {
       repo.classList.add("hide"); //hide repo item
     }
   }
+
 });

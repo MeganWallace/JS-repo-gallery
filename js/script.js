@@ -86,6 +86,7 @@ const getRepoInfo = async function (repoName) { //finds info for repo with repoN
   }
 
   displayRepoInfo(repoInfo, languages); //calls displayRepoInfo function, passing arguments of repoInfo and languages
+  console.log(repoInfo);
 };
 
 // =============== Function to display specific repo data ===============
@@ -101,7 +102,8 @@ const displayRepoInfo = function (repoInfo, languages) {
       <p>Description: ${repoInfo.description}</p>
       <p>Default Branch: ${repoInfo.default_branch}</p>
       <p>Languages: ${languages}</p>
-      <a class="visit" href = ${repoInfo.html_url} target = "_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`
+      <a class="gh-pages" href = ${repoInfo.homepage} target = "_blank" rel="noreferrer noopener">View Project</a>
+      <a class="visit" href = ${repoInfo.html_url} target = "_blank" rel="noreferrer noopener">View Repo on GitHub</a>`
   repoDataSection.append(repoDiv); //add new div to section with class of .repo-data
 };
 
